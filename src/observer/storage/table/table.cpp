@@ -526,7 +526,7 @@ RC Table::destroy(const char* dir){
   for(int i = 0;i < index_num;i++){
     ((BplusTreeIndex*)indexes_[i])->close();
     const IndexMeta* index_meta = table_meta_.index(i);
-    std::string path_index = table_index_file(path.c_str(),name(),index_meta->name()  );
+    std::string path_index = table_index_file(dir,name(),index_meta->name());
     if(unlink(path_index.c_str()) != 0){
       LOG_ERROR("Remove index file %s failed! errno:%d",path_index,errno);
       return RC::INTERNAL;
