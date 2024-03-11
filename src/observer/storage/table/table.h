@@ -56,7 +56,7 @@ public:
    * @param base_dir 表所在的文件夹，表记录数据文件、索引数据文件存放位置
    */
   RC open(const char *meta_file, const char *base_dir);
-
+  RC destroy(const char *dir);
   /**
    * @brief 根据给定的字段生成一个记录/行
    * @details 通常是由用户传过来的字段，按照schema信息组装成一个record。

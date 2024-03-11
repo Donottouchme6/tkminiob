@@ -9,7 +9,7 @@ MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details. */
 
 //
-// Created by Wangyunlai on 2023/4/25.
+// Created by Wangyunlai on 2023/6/14.
 //
 
 #pragma once
@@ -19,19 +19,14 @@ See the Mulan PSL v2 for more details. */
 class SQLStageEvent;
 
 /**
- * @defgroup Executor
- * @brief 一些SQL语句不会生成对应的执行计划，直接使用Executor来执行，比如DDL语句
- */
-
-/**
- * @brief 执行器
+ * @brief drop表的执行器
  * @ingroup Executor
  */
-class CommandExecutor
+class DropTableExecutor
 {
 public:
-  CommandExecutor()          = default;
-  virtual ~CommandExecutor() = default;
+  DropTableExecutor()          = default;
+  virtual ~DropTableExecutor() = default;
 
   RC execute(SQLStageEvent *sql_event);
 };

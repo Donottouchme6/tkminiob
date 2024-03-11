@@ -11,7 +11,6 @@ See the Mulan PSL v2 for more details. */
 //
 // Created by Wangyunlai on 2021/5/7.
 //
-
 #include "condition_filter.h"
 #include "common/log/log.h"
 #include "sql/parser/value.h"

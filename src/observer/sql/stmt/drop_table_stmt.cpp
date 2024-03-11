@@ -9,29 +9,14 @@ MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details. */
 
 //
-// Created by Wangyunlai on 2023/4/25.
+// Created by Wangyunlai on 2023/6/14.
 //
 
-#pragma once
+#include "sql/stmt/drop_table_stmt.h"
+#include "storage/db/db.h"
 
-#include "common/rc.h"
-
-class SQLStageEvent;
-
-/**
- * @defgroup Executor
- * @brief 一些SQL语句不会生成对应的执行计划，直接使用Executor来执行，比如DDL语句
- */
-
-/**
- * @brief 执行器
- * @ingroup Executor
- */
-class CommandExecutor
+RC DropTableStmt::create(Db *db, const DropTableSqlNode &drop_table, Stmt *&stmt)
 {
-public:
-  CommandExecutor()          = default;
-  virtual ~CommandExecutor() = default;
-
-  RC execute(SQLStageEvent *sql_event);
-};
+  stmt = new DropTableStmt(drop_table.relation_name);
+  return RC::SUCCESS;
+}
