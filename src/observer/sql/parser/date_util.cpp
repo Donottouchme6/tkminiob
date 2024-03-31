@@ -14,6 +14,9 @@ int date_stoi(const char* str){
 
       if(yy < 1970 || mm < 1 || dd < 1)
         flag = 0;
+
+      if(yy > 2038|| (yy == 2038 && mm >= 2))
+        flag = 0;
       
       int day = 0;
       int t = 1970;
