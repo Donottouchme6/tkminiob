@@ -6,17 +6,18 @@ int date_stoi(const char* str){
     int days[2][13] = { { 0,31,59,90,120,151,181,212,243,273,304,334,365 },
 					{ 0,31,60,91,121,152,182,213,244,274,305,335,366} };
       int yy = -1,mm = -1,dd = -1;
-      sscanf(str,"%d-%d-%d",&yy,&mm,&dd);
-
+      int rc = sscanf(str,"%d-%d-%d",&yy,&mm,&dd);
+      if(rc != 3)
+        return -1;
       int flag = 1;
       if((yy == -1 || mm == -1 || dd == -1))
-        flag = 0;
+        return -1;
 
       if(yy < 1970 || mm < 1 || dd < 1)
-        flag = 0;
+        return -1;
 
       if(yy > 2038|| (yy == 2038 && mm >= 2))
-        flag = 0;
+        return -1;
       
       int day = 0;
       int t = 1970;
