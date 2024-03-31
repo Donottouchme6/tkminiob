@@ -44,10 +44,16 @@ Value::Value(float val) { set_float(val); }
 
 Value::Value(bool val) { set_boolean(val); }
 
-Value::Value(int val,int flag,int flag2) {  set_date(val); }
 
 
-Value::Value(const char *s, int len /*= 0*/) { set_string(s, len); }
+Value::Value(const char *s, int len /*= 0*/) { 
+  int day = date_stoi(s);
+  if(day == -1)
+    set_string(s, len); 
+  else {
+    set_date(day);
+  }
+  }
 
 void Value::set_data(char *data, int length)
 {
