@@ -54,5 +54,4 @@ std::string date_itos(int day){
   char out[30];
   sprintf(out,"%d-%02d-%02d",yy,mm,dd);
   return std::string(out);
-
 }

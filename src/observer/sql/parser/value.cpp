@@ -44,7 +44,7 @@ Value::Value(float val) { set_float(val); }
 
 Value::Value(bool val) { set_boolean(val); }
 
-Value::Value(int val,int flag) {  set_date(val); }
+Value::Value(int val,int flag,int flag2) {  set_date(val); }
 
 
 Value::Value(const char *s, int len /*= 0*/) { set_string(s, len); }
@@ -167,7 +167,7 @@ std::string Value::to_string() const
     } break;
     case DATES: {
       os << date_itos(num_value_.int_value_);
-    } break;
+    }
     default: {
       LOG_WARN("unsupported attr type: %d", attr_type_);
     } break;
