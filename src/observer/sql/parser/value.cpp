@@ -51,6 +51,7 @@ Value::Value(const char *s, int len /*= 0*/) {
   if(day == -1)
     set_string(s, len); 
   else if(day == -2){
+    date_flag = false;
     set_undefined();
   } else{
     set_date(day);

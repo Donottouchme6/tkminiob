@@ -17,7 +17,7 @@ int date_stoi(const char* str){
       if((yy == -1 || mm == -1 || dd == -1))
         return -1;
 
-      if(yy < 1970 || mm < 1 || dd < 1)
+      if(yy < 1970 || mm < 1 || dd < 1 || mm > 12)
         return -2;
 
       if(yy > 2038|| (yy == 2038 && mm >= 2))
