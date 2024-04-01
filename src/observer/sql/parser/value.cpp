@@ -50,7 +50,9 @@ Value::Value(const char *s, int len /*= 0*/) {
   int day = date_stoi(s);
   if(day == -1)
     set_string(s, len); 
-  else {
+  else if(day == -2){
+    set_undefined();
+  } else{
     set_date(day);
   }
   }
@@ -107,6 +109,15 @@ void Value::set_date(int val)
   num_value_.int_value_ = val;
   length_                = sizeof(val);
 }
+
+void Value::set_undefined()
+{
+  attr_type_             = UNDEFINED;
+  num_value_.int_value_ = -1;
+  length_                = sizeof(int);
+  //LOG_ERROR("undefined attr type");
+}
+
 void Value::set_string(const char *s, int len /*= 0*/)
 {
   attr_type_ = CHARS;

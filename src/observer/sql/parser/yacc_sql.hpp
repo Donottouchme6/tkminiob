@@ -102,7 +102,8 @@ extern int yydebug;
     FLOAT = 303,                   /* FLOAT  */
     ID = 304,                      /* ID  */
     SSS = 305,                     /* SSS  */
-    UMINUS = 306                   /* UMINUS  */
+    DATE_STR = 306,                /* DATE_STR  */
+    UMINUS = 307                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -130,7 +131,7 @@ union YYSTYPE
   int                               number;
   float                             floats;
 
-#line 134 "yacc_sql.hpp"
+#line 135 "yacc_sql.hpp"
 
 };
 typedef union YYSTYPE YYSTYPE;

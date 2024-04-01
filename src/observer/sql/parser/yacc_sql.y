@@ -124,6 +124,7 @@ ArithmeticExpr *create_arithmetic_expression(ArithmeticExpr::Type type,
 %token <floats> FLOAT
 %token <string> ID
 %token <string> SSS
+%token <string> DATE_STR
 //非终结符
 
 /** type 定义了各种解析后的结果输出的是什么类型。类型对应了 union 中的定义的成员变量名称 **/
@@ -387,6 +388,15 @@ value:
     }
     |SSS {
       char *tmp = common::substr($1,1,strlen($1)-2);
+        $$ = new Value(tmp);
+        free(tmp);
+        free($1);
+    }
+    |DATE_STR {
+      char *tmp = common::substr($1,1,strlen($1)-2);
+      if(date_stoi(tmp) == -2){
+        date_flag = false;
+      }
         $$ = new Value(tmp);
         free(tmp);
         free($1);
