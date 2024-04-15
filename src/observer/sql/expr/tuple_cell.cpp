@@ -35,7 +35,7 @@ void set_aggralias(std::string alias, AggrType aggr_type,std::string &str){
       } break;
 
       case AggrType::COUNT: {
-        str = "COUNT(" + alias + ")";
+        str = "COUNT(*)";
       } break;
 
       default: {
