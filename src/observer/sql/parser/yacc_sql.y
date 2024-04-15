@@ -566,6 +566,11 @@ rel_attr:
       $$->attribute_name = $3;
       $$->aggregation_type = AggrType::MIN;
     }
+    | COUNT LBRACE ID RBRACE {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = $3;
+      $$->aggregation_type = AggrType::COUNT;
+    }
     | COUNT LBRACE '*' RBRACE {
       $$ = new RelAttrSqlNode;
       $$->attribute_name = "*";
