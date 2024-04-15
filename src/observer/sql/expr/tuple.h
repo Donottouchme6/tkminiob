@@ -24,6 +24,7 @@ See the Mulan PSL v2 for more details. */
 #include "sql/parser/parse.h"
 #include "sql/parser/value.h"
 #include "storage/record/record.h"
+#include "sql/parser/aggregation.h"
 
 class Table;
 
@@ -52,7 +53,9 @@ class TupleSchema
 {
 public:
   void append_cell(const TupleCellSpec &cell) { cells_.push_back(cell); }
+  void append_cell(const char *table, const char *field,AggrType aggr_type) { append_cell(TupleCellSpec(table, field,aggr_type)); }
   void append_cell(const char *table, const char *field) { append_cell(TupleCellSpec(table, field)); }
+  void append_cell(const char *alias,AggrType aggr_type) { append_cell(TupleCellSpec(alias,aggr_type)); }
   void append_cell(const char *alias) { append_cell(TupleCellSpec(alias)); }
   int  cell_num() const { return static_cast<int>(cells_.size()); }
 
@@ -200,6 +203,10 @@ private:
   const Table             *table_  = nullptr;
   std::vector<FieldExpr *> speces_;
 };
+
+
+
+
 
 /**
  * @brief 从一行数据中，选择部分字段组成的元组，也就是投影操作

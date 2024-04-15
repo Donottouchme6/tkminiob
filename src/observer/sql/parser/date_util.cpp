@@ -2,6 +2,7 @@
 #include <string>
 #include <cstring>
 #include "date_util.h"
+#include "sql/operator/aggregation_logical_operator.h"
 
 bool date_flag = true;
 

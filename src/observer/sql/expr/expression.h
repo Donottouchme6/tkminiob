@@ -287,3 +287,35 @@ private:
   std::unique_ptr<Expression> left_;
   std::unique_ptr<Expression> right_;
 };
+
+/**
+ * @brief 字段表达式
+ * @ingroup Expression
+ */
+class AggrExpr : public Expression
+{
+public:
+  AggrExpr() = default;
+  AggrExpr(const Table *table, const FieldMeta *field) : field_(table, field) {}
+  AggrExpr(const Field &field) : field_(field) {}
+  AggrExpr(const char* test) {
+    printf("%s\n",test);
+  };
+
+  virtual ~AggrExpr() = default;
+
+  ExprType type() const override { return ExprType::FIELD; }
+  AttrType value_type() const override { return field_.attr_type(); }
+
+  Field &field() { return field_; }
+
+  const Field &field() const { return field_; }
+
+  const char *table_name() const { return field_.table_name(); }
+  const char *field_name() const { return field_.field_name(); }
+
+  RC get_value(const Tuple &tuple, Value &value) const override;
+
+private:
+  Field field_;
+};

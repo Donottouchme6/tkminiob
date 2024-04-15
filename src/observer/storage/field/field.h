@@ -16,6 +16,8 @@ See the Mulan PSL v2 for more details. */
 
 #include "storage/field/field_meta.h"
 #include "storage/table/table.h"
+#include "sql/parser/aggregation.h"
+
 
 /**
  * @brief 字段
@@ -26,12 +28,14 @@ class Field
 public:
   Field() = default;
   Field(const Table *table, const FieldMeta *field) : table_(table), field_(field) {}
+  Field(const Table *table, const FieldMeta *field,  AggrType aggr_type) : table_(table), field_(field), aggregation_type_(aggr_type) {}
   Field(const Field &) = default;
 
   const Table     *table() const { return table_; }
   const FieldMeta *meta() const { return field_; }
 
   AttrType attr_type() const { return field_->type(); }
+  AggrType aggr_type() const { return aggregation_type_; }
 
   const char *table_name() const { return table_->name(); }
   const char *field_name() const { return field_->name(); }
@@ -44,7 +48,9 @@ public:
 
   const char *get_data(const Record &record);
 
+
 private:
   const Table     *table_ = nullptr;
   const FieldMeta *field_ = nullptr;
+  AggrType  aggregation_type_ = AggrType::DEFAULT;
 };

@@ -15,13 +15,16 @@ See the Mulan PSL v2 for more details. */
 #pragma once
 
 #include "storage/field/field_meta.h"
+#include "sql/parser/aggregation.h"
 #include <iostream>
 
 class TupleCellSpec
 {
 public:
   TupleCellSpec(const char *table_name, const char *field_name, const char *alias = nullptr);
+  TupleCellSpec(const char *table_name, const char *field_name,AggrType aggr_type, const char *alias = nullptr);
   TupleCellSpec(const char *alias);
+  TupleCellSpec(const char *alias,AggrType aggr_type);
 
   const char *table_name() const { return table_name_.c_str(); }
   const char *field_name() const { return field_name_.c_str(); }

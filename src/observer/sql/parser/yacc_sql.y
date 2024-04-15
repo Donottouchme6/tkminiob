@@ -13,6 +13,7 @@
 #include "sql/parser/lex_sql.h"
 #include "sql/expr/expression.h"
 #include "date_util.h"
+#include "aggregation.h"
 
 using namespace std;
 
@@ -99,6 +100,11 @@ ArithmeticExpr *create_arithmetic_expression(ArithmeticExpr::Type type,
         LE
         GE
         NE
+        SUM
+        AVG
+        MAX
+        MIN
+        COUNT
 
 /** union 中定义各种数据类型，真实生成的代码也是union类型，所以不能有非POD类型的数据 **/
 %union {
@@ -505,6 +511,9 @@ expression:
     }
     ;
 
+
+
+
 select_attr:
     '*' {
       $$ = new std::vector<RelAttrSqlNode>;
@@ -536,6 +545,31 @@ rel_attr:
       $$->attribute_name = $3;
       free($1);
       free($3);
+    }
+    | SUM LBRACE ID RBRACE {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = $3;
+      $$->aggregation_type = AggrType::SUM;
+    }
+    | AVG LBRACE ID RBRACE {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = $3;
+      $$->aggregation_type = AggrType::AVG;
+    }
+    | MAX LBRACE ID RBRACE {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = $3;
+      $$->aggregation_type = AggrType::MAX;
+    }
+    | MIN LBRACE ID RBRACE {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = $3;
+      $$->aggregation_type = AggrType::MIN;
+    }
+    | COUNT LBRACE '*' RBRACE {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = "*";
+      $$->aggregation_type = AggrType::COUNT;
     }
     ;
 

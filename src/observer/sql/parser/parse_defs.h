@@ -19,6 +19,7 @@ See the Mulan PSL v2 for more details. */
 #include <memory>
 
 #include "sql/parser/value.h"
+#include "aggregation.h"
 
 class Expression;
 
@@ -37,6 +38,7 @@ struct RelAttrSqlNode
 {
   std::string relation_name;   ///< relation name (may be NULL) 表名
   std::string attribute_name;  ///< attribute name              属性名
+  AggrType aggregation_type = AggrType::DEFAULT;
 };
 
 /**
