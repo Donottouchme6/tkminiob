@@ -39,6 +39,14 @@ struct RelAttrSqlNode
   std::string relation_name;   ///< relation name (may be NULL) 表名
   std::string attribute_name;  ///< attribute name              属性名
   AggrType aggregation_type = AggrType::DEFAULT;
+  
+  RelAttrSqlNode (bool valid = 1) {
+    if(!valid){
+      attribute_name = "**";
+      relation_name = "**";
+    }
+  }
+
 };
 
 /**

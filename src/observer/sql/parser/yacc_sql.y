@@ -515,14 +515,7 @@ expression:
 
 
 select_attr:
-    '*' {
-      $$ = new std::vector<RelAttrSqlNode>;
-      RelAttrSqlNode attr;
-      attr.relation_name  = "";
-      attr.attribute_name = "*";
-      $$->emplace_back(attr);
-    }
-    | rel_attr attr_list {
+    rel_attr attr_list {
       if ($2 != nullptr) {
         $$ = $2;
       } else {
@@ -534,7 +527,11 @@ select_attr:
     ;
 
 rel_attr:
-    ID {
+    '*' {
+      $$ = new RelAttrSqlNode;
+      $$->attribute_name = "*";
+    }
+    | ID {
       $$ = new RelAttrSqlNode;
       $$->attribute_name = $1;
       free($1);
@@ -546,35 +543,51 @@ rel_attr:
       free($1);
       free($3);
     }
-    | SUM LBRACE ID RBRACE {
-      $$ = new RelAttrSqlNode;
-      $$->attribute_name = $3;
-      $$->aggregation_type = AggrType::SUM;
+    | SUM LBRACE rel_attr attr_list RBRACE {
+      if($4 == nullptr && $3->attribute_name != "*"){
+        $$ = $3;
+        $$->aggregation_type = AggrType::SUM; 
+        //printf("$4 not null");
+      } else $$ = new RelAttrSqlNode(0);
     }
-    | AVG LBRACE ID RBRACE {
-      $$ = new RelAttrSqlNode;
-      $$->attribute_name = $3;
-      $$->aggregation_type = AggrType::AVG;
+    | AVG LBRACE rel_attr attr_list RBRACE {
+      if($4 == nullptr && $3->attribute_name != "*"){
+        $$ = $3;
+        $$->aggregation_type = AggrType::AVG; 
+      } else $$ = new RelAttrSqlNode(0);
     }
-    | MAX LBRACE ID RBRACE {
-      $$ = new RelAttrSqlNode;
-      $$->attribute_name = $3;
-      $$->aggregation_type = AggrType::MAX;
+    | MAX LBRACE rel_attr attr_list RBRACE {
+      if($4 == nullptr && $3->attribute_name != "*"){
+        $$ = $3;
+        $$->aggregation_type = AggrType::MAX; 
+      } else $$ = new RelAttrSqlNode(0);
     }
-    | MIN LBRACE ID RBRACE {
-      $$ = new RelAttrSqlNode;
-      $$->attribute_name = $3;
-      $$->aggregation_type = AggrType::MIN;
+    | MIN LBRACE rel_attr attr_list RBRACE {
+      if($4 == nullptr && $3->attribute_name != "*"){
+        $$ = $3;
+        $$->aggregation_type = AggrType::MIN; 
+      } else $$ = new RelAttrSqlNode(0);
     }
-    | COUNT LBRACE ID RBRACE {
-      $$ = new RelAttrSqlNode;
-      $$->attribute_name = $3;
-      $$->aggregation_type = AggrType::COUNT;
+    | COUNT LBRACE rel_attr attr_list RBRACE {
+      if($4 == nullptr){
+        $$ = $3;
+        $$->aggregation_type = AggrType::COUNT; 
+      } else $$ = new RelAttrSqlNode(0);
     }
-    | COUNT LBRACE '*' RBRACE {
-      $$ = new RelAttrSqlNode;
-      $$->attribute_name = "*";
-      $$->aggregation_type = AggrType::COUNT;
+    | SUM LBRACE RBRACE {
+      $$ = new RelAttrSqlNode(0);
+    }
+    | AVG LBRACE RBRACE {
+      $$ = new RelAttrSqlNode(0);
+    }
+    | MAX LBRACE RBRACE {
+      $$ = new RelAttrSqlNode(0);
+    }
+    | MIN LBRACE RBRACE {
+      $$ = new RelAttrSqlNode(0);
+    }
+    | COUNT LBRACE RBRACE {
+      $$ = new RelAttrSqlNode(0);
     }
     ;
 

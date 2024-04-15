@@ -65,28 +65,29 @@ RC calculateAggrResult(std::vector<Value>& aggr_vals,AggrType aggr_type,Value &v
         } break;
 
         case AggrType::MAX :{
-          Value *MaxValue = &aggr_vals[0];
+          Value MaxValue = aggr_vals[0];
           //calculate max
           for(auto val : aggr_vals) {
-            if (MaxValue->compare(value) < 0) MaxValue = &value;
+            if (MaxValue.compare(val) < 0) MaxValue = val;
           }
 
           //set value
           value.set_type(aggr_vals[0].attr_type());
-          value.set_value(*MaxValue);
-
+          const Value result(MaxValue);
+          value.set_value(result);
         } break;
 
         case AggrType::MIN :{
-          Value *MinValue = &aggr_vals[0];
-          //calculate max
+          Value MinValue = aggr_vals[0];
+          //calculate min
           for(auto val : aggr_vals) {
-            if (MinValue->compare(value) > 0) MinValue = &value;
+            if (MinValue.compare(val) > 0) MinValue = val;
           }
 
           //set value
           value.set_type(aggr_vals[0].attr_type());
-          value.set_value(*MinValue);
+          const Value result(MinValue);
+          value.set_value(result);
 
         } break;
 
