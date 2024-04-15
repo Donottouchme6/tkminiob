@@ -35,11 +35,6 @@ RC calculateAggrResult(std::vector<Value>& aggr_vals,AggrType aggr_type,Value &v
     double sum = 0;
     int count = aggr_vals.size();
     AttrType attrtype = aggr_vals[0].attr_type();
-    if(attrtype != AttrType::INTS && attrtype != AttrType::FLOATS){
-        LOG_WARN("unsupported value type when doing aggregation");
-        return RC::INTERNAL;
-    }
-
     switch(aggr_type){
 
         case AggrType::SUM :{
@@ -70,28 +65,28 @@ RC calculateAggrResult(std::vector<Value>& aggr_vals,AggrType aggr_type,Value &v
         } break;
 
         case AggrType::MAX :{
-          double tmp = 0x80000000;
+          Value *MaxValue = &aggr_vals[0];
           //calculate max
           for(auto val : aggr_vals) {
-            tmp = (attrtype == AttrType::INTS) ? std::max(val.get_int(),(int)tmp) : std::max(val.get_float(),(float)tmp);
+            if (MaxValue->compare(value) < 0) MaxValue = &value;
           }
 
           //set value
-          value.set_type(attrtype);
-          (attrtype == AttrType::INTS) ? value.set_int((int)tmp) : value.set_float((float)tmp);
+          value.set_type(aggr_vals[0].attr_type());
+          value.set_value(*MaxValue);
 
         } break;
 
         case AggrType::MIN :{
-          double tmp = 0x7fffffff;
-          //calculate min
+          Value *MinValue = &aggr_vals[0];
+          //calculate max
           for(auto val : aggr_vals) {
-            tmp = (attrtype == AttrType::INTS) ? std::min(val.get_int(),(int)tmp) : std::min(val.get_float(),(float)tmp);
+            if (MinValue->compare(value) > 0) MinValue = &value;
           }
 
           //set value
-          value.set_type(attrtype);
-          (attrtype == AttrType::INTS) ? value.set_int((int)tmp) : value.set_float((float)tmp);
+          value.set_type(aggr_vals[0].attr_type());
+          value.set_value(*MinValue);
 
         } break;
 
